@@ -1,0 +1,67 @@
+<div class="expenses">
+    <div class="expenses__box">   
+        <form>
+            <div class="expenses__create">
+                <input [(ngModel)]="newExpense.name" name="name" class="expenses__input" type="text" placeholder="Name">
+                <input [(ngModel)]="newExpense.date" name="date" class="expenses__input" type="text" placeholder="Date">
+                <input [(ngModel)]="newExpense.cost" name="cost" class="expenses__input" type="text" placeholder="Cost">
+                <button (click)="createExpense()" type="submit" class="expenses__save">Add</button>
+            </div>
+        </form>
+    </div>
+
+
+    <div *ngIf="expenses" class="expenses__box">
+        <div class="expenses__table">
+            <div class="expenses__header">
+                <div class="expenses__cell">User</div>
+                <div class="expenses__cell">Name</div>
+                <div class="expenses__cell">Date</div>
+                <div class="expenses__cell expenses__cell--numeric">Cost</div>
+                <div class="expenses__cell"></div>
+            </div>
+            <div *ngFor="let expense of expenses">
+                <div *ngIf="!expense.editMode" class="expenses__row">
+                    <div class="expenses__cell">Mateusz</div>
+                    <div class="expenses__cell">{{expense.name}}</div>
+                    <div class="expenses__cell">{{expense.date}}</div>
+                    <div class="expenses__cell expenses__cell--numeric">{{expense.cost | number:'1.2-2'}}</div>
+                    <div class="expenses__cell expenses__cell--numeric">
+                        <img class="expenses__icon" (click)="switchToEditMode(expense)" src="../../../assets/icons/pencil.svg">
+                        <img class="expenses__icon" (click)="deleteExpense(expense)" src="../../../assets/icons/delete.svg">
+                    </div>
+                </div>
+                <form *ngIf="expense.editMode" class="expenses__row">
+                    <div class="expenses__cell">Mateusz</div>
+                    <div class="expenses__cell">
+                        <input 
+                            [(ngModel)]="expense.name"
+                            name="name"
+                            type="text"
+                            class="expenses__input">
+                    </div>
+                    <div class="expenses__cell">
+                        <input 
+                            [(ngModel)]="expense.date"
+                            name="date"
+                            type="text"
+                            class="expenses__input">
+                    </div>
+                    <div class="expenses__cell">
+                        <input 
+                            [(ngModel)]="expense.cost"
+                            name="cost"
+                            type="text"
+                            class="expenses__input expenses__input--right">
+                    </div>
+                    <div class="expenses__cell expenses__cell--numeric">
+                        <button (click)="updateExpense(expense)" class="expenses__save" type="submit">Save</button>       
+                        <img class="expenses__icon" (click)="switchToEditMode(expense)" src="../../../assets/icons/pencil.svg">
+                        <img class="expenses__icon" (click)="deleteExpense(expense)" src="../../../assets/icons/delete.svg">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
